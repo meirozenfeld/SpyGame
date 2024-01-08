@@ -12,11 +12,21 @@ from kivy.clock import Clock
 from kivy.core.audio import SoundLoader
 from kivy.core.text import LabelBase
 import random
+import os
+import logging
+logging.basicConfig(level=logging.INFO)  # Adjust the level as needed
+
 
 # Seed the random number generator with a unique value
 random.seed()
-file_path = 'words.txt'
+# file_path = 'words.txt'
 words_array = []
+
+# Get the current directory of the script
+current_directory = os.path.dirname(os.path.realpath(__file__))
+
+# Construct the full path to 'words.txt'
+file_path = os.path.join(current_directory, 'words.txt')
 
 # Open the file in read mode with explicit encoding
 with open(file_path, 'r', encoding='utf-8') as file:
@@ -29,6 +39,9 @@ words_array = [word[::-1] for word in words_array]
 print("Data Array:")
 for data in words_array:
     print(data)
+# import pdb
+# pdb.set_trace()
+
 
 # # Choose a random value from the words_array
 # random_word = random.choice(words_array)
@@ -77,14 +90,14 @@ class NamesWindow(Screen):
 
         print("random", self.random_spies)
 
-        layout = BoxLayout(orientation='vertical', spacing=8, padding=10)
-        names_label = Label(text='Enter player names')
+        layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+        names_label = Label(text='Enter player names', size_hint_y=None)
 
         # Create a ScrollView
         scroll_view = ScrollView(do_scroll_x=False, do_scroll_y=True)
 
         # Create a GridLayout inside ScrollView for TextInputs
-        grid_layout = GridLayout(cols=1, spacing=5, size_hint_y=None)
+        grid_layout = GridLayout(cols=1, spacing=15, size_hint_y=None)
 
         # Add TextInputs to GridLayout
         for i in range(1, self.num_players + 1):
@@ -92,7 +105,7 @@ class NamesWindow(Screen):
                 hint_text='Player ' + str(i) + ' Name',
                 multiline=False,
                 size_hint_y=None,
-                height=40
+                height=100
             )
             grid_layout.add_widget(text_input)
             # text_input.bind(on_text=self.on_text_changed)  # Bind the method to each TextInput
@@ -112,7 +125,7 @@ class NamesWindow(Screen):
         start_game_button = Button(
             text='Start Game',
             size_hint_y=None,
-            height=60,
+            height=120,
             on_release=self.start_game
         )
         layout.add_widget(start_game_button)
@@ -146,75 +159,93 @@ class NamesWindow(Screen):
         self.random_spies = []
 
 
+# ... (previous imports)
+
 class GameWindow(Screen):
     def __init__(self, **kwargs):
         super(GameWindow, self).__init__(**kwargs)
         self.current_player_index = 0
 
-
     def on_enter(self):
-        main_window = self.manager.get_screen('main')
-        self.num_players = main_window.num_players
-        self.num_spies = main_window.num_spies
-        names_window = self.manager.get_screen('names')
-        self.player_names=names_window.player_names
-        self.random_spies=names_window.random_spies
-        # Seed the random number generator with a unique value
-        random.seed()
-        self.random_word = random.choice(words_array)
-        self.update_layout()
+        try:
+            main_window = self.manager.get_screen('main')
+            self.num_players = main_window.num_players
+            self.num_spies = main_window.num_spies
+            names_window = self.manager.get_screen('names')
+            self.player_names = names_window.player_names
+            self.random_spies = names_window.random_spies
 
-        # main_window = self.manager.get_screen('main')
-        # self.num_players = main_window.num_players
-        # self.num_spies = main_window.num_spies
-        # names_window = self.manager.get_screen('names')
-        # self.player_names=names_window.player_names
-        # for name in self.player_names:
-        #     print("name2: ", name)
-    # print("second " + str(num_players))
+            # Seed the random number generator with a unique value
+            random.seed()
+            self.random_word = random.choice(words_array)
+            self.update_layout()
+        except Exception as e:
+            import traceback
+            traceback.print_exc()  # Print the traceback to console
+            logging.exception(f"Error in on_enter of GameWindow: {e}")
+
     def update_layout(self):
-        self.clear_widgets()
+        try:
+            self.clear_widgets()
 
-        self.value_label = Label(text='', font_name='Arial', font_size=40)
-        show_spy = Button(text="Show Spy", on_release=self.show_spy)
+            self.value_label = Label(text='', font_name='Arial', font_size=40)
+            show_spy = Button(text="Show Spy", on_release=self.show_spy)
 
+            if self.current_player_index < len(self.player_names):
+                current_player_name = self.player_names[self.current_player_index]
 
-        if self.current_player_index < len(self.player_names):
-            current_player_name = self.player_names[self.current_player_index]
+                layout = BoxLayout(orientation='vertical')
+                player_label = Label(text=current_player_name, font_size=40)
+                if self.current_player_index < len(self.player_names) - 1:
+                    next_button = Button(text='Next Player', on_release=self.next_player)
+                else:
+                    next_button = Button(text='Start Time', on_release=self.next_player)
 
-            layout = BoxLayout(orientation='vertical')
-            player_label = Label(text=current_player_name, font_size=40)
-            if(self.current_player_index == len(self.player_names) - 1 ):
-                next_button = Button(text='Start Time', on_release=self.next_player)
+                layout.add_widget(player_label)
+                layout.add_widget(self.value_label)
+                layout.add_widget(show_spy)
+                layout.add_widget(next_button)
+
+                self.add_widget(layout)
             else:
-                next_button = Button(text='Next Player', on_release=self.next_player)
-
-            layout.add_widget(player_label)
-            layout.add_widget(self.value_label)
-            layout.add_widget(show_spy)
-            layout.add_widget(next_button)
-
-            self.add_widget(layout)
-        else:
-            # All players displayed, navigate to the next screen or perform other actions
-            app = App.get_running_app()
-            app.root.current = "time"
+                # All players displayed, navigate to the next screen or perform other actions
+                app = App.get_running_app()
+                app.root.current = "time"
+        except Exception as e:
+            import traceback
+            traceback.print_exc()  # Print the traceback to console
+            logging.exception(f"Error in update_layout of GameWindow: {e}")
 
     def next_player(self, *args):
-
-        self.current_player_index += 1
-        self.update_layout()
+        try:
+            self.current_player_index += 1
+            self.update_layout()
+        except Exception as e:
+            import traceback
+            traceback.print_exc()  # Print the traceback to console
+            logging.exception(f"Error in next_player of GameWindow: {e}")
 
     def show_spy(self, instance):
-        # Update the Label text when the button is clicked
-        if self.current_player_index in self.random_spies:
-            self.value_label.text = "לגרמ"
-        else:
-            self.value_label.text = self.random_word
+        try:
+            # Update the Label text when the button is clicked
+            if self.current_player_index in self.random_spies:
+                self.value_label.text = "לגרמ"
+            else:
+                self.value_label.text = self.random_word
+        except Exception as e:
+            import traceback
+            traceback.print_exc()  # Print the traceback to console
+            logging.exception(f"Error in show_spy of GameWindow: {e}")
 
     def reset_data(self):
-        self.current_player_index = 0
-        self.random_word = ''
+        try:
+            self.current_player_index = 0
+            self.random_word = ''
+        except Exception as e:
+            import traceback
+            traceback.print_exc()  # Print the traceback to console
+            logging.exception(f"Error in reset_data of GameWindow: {e}")
+
 class TimeWindow(Screen):
     def on_enter(self):
         self.clear_widgets()
@@ -333,7 +364,7 @@ class EndGameWindow(Screen):
 class WindowManager(ScreenManager):
     pass
     # Building .kv file
-kv = Builder.load_file("SpyApp.kv")
+kv = Builder.load_file("main.kv")
 
 
 class SpyApp(App):
@@ -343,54 +374,4 @@ class SpyApp(App):
 if __name__ == '__main__':
     SpyApp().run()
 
-# for i in range(1, self.num_players + 1):
-#     self.players.append('Player ' + str(i) + ' Name')
-# layout = BoxLayout(orientation='vertical', spacing=8)
-# scroll_view = ScrollView()
-# grid_layout = GridLayout(cols=1, spacing=5, size_hint_y=None)
-#
-# grid_layout.bind(minimum_height = layout.setter('height'))
-# for i in range(1, self.num_players + 1):
-#     text_input = TextInput(
-#         hint_text='Player ' + str(i) + ' Name',
-#         multiline=False,
-#         size_hint_y=None,
-#         height=40
-#     )
-#     grid_layout.add_widget(text_input)
-#
-#
-# scroll_view.add_widget(grid_layout)
-# layout.add_widget(scroll_view)
-# self.add_widget(layout)
-# layout = BoxLayout(orientation='vertical', spacing=5)
-#
-# # Create a ScrollView
-# scroll_view = ScrollView()
 
-# # Create a GridLayout inside ScrollView for TextInputs
-# grid_layout = GridLayout(cols=1, spacing=5, size_hint_y=None)
-# grid_layout.bind(minimum_height=grid_layout.setter('height'))
-#
-# # Adjust height and spacing
-# text_input_height = '30dp'
-# text_input_spacing = 5
-#
-# # Add TextInputs to GridLayout (adjust this loop as needed)
-# for i in range(1, self.num_players + 1):
-#     text_input = TextInput(
-#         hint_text='Player ' + str(i) + ' Name',
-#         multiline=False,
-#         size_hint_y=None,
-#         height=text_input_height
-#     )
-#     grid_layout.add_widget(text_input)
-#
-# # Add the GridLayout to the ScrollView
-# scroll_view.add_widget(grid_layout)
-#
-# # Add the ScrollView to the BoxLayout
-# layout.add_widget(scroll_view)
-#
-# # Add the BoxLayout to the NamesWindow
-# self.add_widget(layout)
