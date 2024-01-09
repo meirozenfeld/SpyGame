@@ -37,7 +37,10 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,pillow,hostpython3
+requirements = python3==3.7,kivy,pillow,hostpython3
+
+# (str) Use a version of hostpython that is compatible with the chosen Python version
+hostpython3 = /usr/bin/python3
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
