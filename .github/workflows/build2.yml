@@ -13,19 +13,16 @@ jobs:
 
       - name: Update pip
         run: python -m pip install --upgrade pip
-      
-      - name: Install build dependencies
-        run: |
-          sudo apt-get update
-          sudo add-apt-repository ppa:deadsnakes/ppa
-          sudo apt-get install -y \
-            python3.7 \
-            python3.7-dev
 
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3.7 python3.7-dev
+          sudo apt-get install -y \
+            python3.7 \
+            python3.7-dev
+
+      - name: Specify Python Version
+        run: echo "requirements = python3==3.7" >> buildozer.spec
 
       - name: Get Date
         id: get-date
@@ -43,6 +40,9 @@ jobs:
         with:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
+
+      - name: Update Buildozer
+        run: python -m pip install --upgrade buildozer
 
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
