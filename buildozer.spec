@@ -37,11 +37,13 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy==2.2.0,pillow,hostpython3,sqlite3
+requirements = python3,kivy==2.3.0,pillow,hostpython3,sqlite3
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
+
+cythonize = 1
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
@@ -291,6 +293,8 @@ android.archs = arm64-v8a, armeabi-v7a
 
 # (bool) enables Android auto backup feature (Android API >=23)
 android.allow_backup = True
+
+cython.min_version = 0.29.21
 
 # (str) XML file for custom backup rules (see official auto backup documentation)
 # android.backup_rules =
