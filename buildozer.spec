@@ -101,23 +101,23 @@ fullscreen = 0
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-android.api = 27
+#android.api = 31
 
 # (int) Minimum API your APK / AAB will support.
 #android.minapi = 21
 
 # (int) Android SDK version to use
-android.sdk = 20
+#android.sdk = 20
 
 # (str) Android NDK version to use
-android.ndk = 23b
+#android.ndk = 23b
 
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 #android.ndk_api = 21
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
 #android.private_storage = True
-android.build_tools = 28.0.3
+
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
 #android.ndk_path =
 
@@ -161,7 +161,7 @@ android.accept_sdk_license = True
 # android.apptheme = "@android:style/Theme.NoTitleBar"
 
 # (list) Pattern to whitelist for the whole project
-android.whitelist = python3,kivy,hostpython3
+#android.whitelist =
 
 # (str) Path to a custom whitelist file
 #android.whitelist_src =
@@ -283,7 +283,7 @@ android.whitelist = python3,kivy,hostpython3
 
 # (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
-android.arch = armeabi-v7a
+android.archs = arm64-v8a, armeabi-v7a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing
