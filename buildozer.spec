@@ -105,7 +105,7 @@ android.sdk = 23
 #android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-android.ndk_path = ~/Desktop/crystax-ndk-10.3.2
+#android.ndk_path = ~/Desktop/crystax-ndk-10.3.2
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
 #android.sdk_path = ~/Desktop/platform-tools
@@ -191,8 +191,7 @@ android.ndk_path = ~/Desktop/crystax-ndk-10.3.2
 #android.copy_libs = 1
 
 # (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86
-android.arch = armeabi-v7a
-
+android.archs = arm64-v8a, armeabi-v7a
 #
 # Python for android (p4a) specific
 #
