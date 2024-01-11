@@ -12,6 +12,7 @@ jobs:
       - name: Clone Kivy Repository
         run: |
           git clone https://github.com/kivy/kivy.git
+
       - name: Install GL dependencies
         run: sudo apt-get install -y libgl1-mesa-dev
 
@@ -19,6 +20,10 @@ jobs:
         run: |
           cd kivy
           pip install .
+
+      - name: Install Cython
+        run: |
+          pip install Cython
 
       - name: Build with Buildozer
         run: |
