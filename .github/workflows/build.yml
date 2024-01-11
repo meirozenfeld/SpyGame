@@ -43,6 +43,11 @@ jobs:
       - name: Add Java to PATH
         run: echo "export PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
       
+      - name: Print Java version and javac location
+        run: |
+          java -version
+          which javac
+      
       - name: Download and install Android command-line tools
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
@@ -55,6 +60,7 @@ jobs:
         with:
           command: buildozer android debug
           buildozer_version: master
+
 
 
       - name: Upload artifacts
