@@ -1,9 +1,10 @@
 name: CI
+
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   schedule:
     - cron: '0 0 1,15 * *'
 
@@ -11,26 +12,33 @@ jobs:
   build-android:
     name: Build for Android
     runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
 
-      # used to cache dependencies with a timeout
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Get Date
         id: get-date
-        run: |
-          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        run: echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         shell: bash
 
       - name: Cache Buildozer global directory
         uses: actions/cache@v2
         with:
           path: .buildozer_global
-          key: buildozer-global-${{ hashFiles('buildozer.spec') }} # Replace with your path
+          key: buildozer-global-${{ hashFiles('buildozer.spec') }}
 
-      - uses: actions/cache@v2
+      - name: Cache Buildozer directory
+        uses: actions/cache@v2
         with:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
+
+      - name: Accept Android licenses
+        run: |
+          yes | sdkmanager --licenses
+        env:
+          JAVA_HOME: ${{ env.JDK_17 }} # Set the correct JDK version if needed
 
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
