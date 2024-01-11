@@ -189,7 +189,7 @@ android.permissions = INTERNET,CHANGE_WIFI_MULTICAST_STATE,ACCESS_NETWORK_STATE,
 #android.copy_libs = 1
 
 # (str) The Android arch to build for, choices: armeabi-v7a, arm64-v8a, x86
-android.archs = arm64-v8a, armeabi-v7a
+android.archs = arm64-v8a
 #
 # Python for android (p4a) specific
 #
