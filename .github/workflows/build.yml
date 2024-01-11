@@ -34,25 +34,28 @@ jobs:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
 
-      - name: Set up JDK
+      - name: Set up JDK and add to PATH
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '8' # Use Java 8 for Android SDK operations
-
+      
+      - name: Add Java to PATH
+        run: echo "export PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
+      
       - name: Download and install Android command-line tools
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
           unzip commandlinetools-linux-7583922_latest.zip -d $ANDROID_HOME
           rm commandlinetools-linux-7583922_latest.zip
-
-
+      
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
         with:
           command: buildozer android debug
           buildozer_version: master
+
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
