@@ -35,7 +35,9 @@ source.include_exts = py,png,jpg,kv,atlas,txt,words.txt,mp3,end_sound.mp3,images
 
 # (str) Application versioning (method 1)
 version = 0.1
-
+cython.min_version = 0.29.23
+cython.max_version = 0.29.23
+cython.language_level = 3str
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
 # version.filename = %(source.dir)s/main.py
