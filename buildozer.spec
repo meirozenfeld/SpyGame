@@ -37,13 +37,11 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy        
-requirements = python3,buildozer==1.5.0,kivy==2.2,pillow,hostpython3,sqlite3
+requirements = python3,buildozer==1.5.0,kivy==2.2.1,pillow,sqlite3
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
-
-cythonize = 1
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
@@ -69,7 +67,7 @@ orientation = portrait
 osx.python_version = 3
 
 # Kivy version to use
-osx.kivy_version = 1.10.1
+osx.kivy_version = 1.9.1
 
 #
 # Android specific
@@ -96,7 +94,7 @@ android.permissions = INTERNET,CHANGE_WIFI_MULTICAST_STATE,ACCESS_NETWORK_STATE,
 #android.minapi = 19
 
 # (int) Android SDK version to use
-android.sdk = 23
+#android.sdk = 23
 
 # (str) Android NDK version to use
 #android.ndk = 10.3.2
@@ -152,7 +150,7 @@ android.sdk = 23
 #android.add_activites = com.example.ExampleActivity
 
 # (str) python-for-android branch to use, defaults to stable
-p4a.branch = release-2022.12.20
+#p4a.branch = master
 
 # (str) OUYA Console category. Should be one of GAME or APP
 # If you leave this blank, OUYA support will not be enabled
