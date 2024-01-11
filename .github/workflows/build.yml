@@ -40,15 +40,15 @@ jobs:
           distribution: 'adopt'
           java-version: '8' # Use Java 8 for Android SDK operations
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          sdk-version: '6609375' # Use an older version of the Android command-line tools
-          components: 'platform-tools,build-tools-30.0.3' # Adjust to the desired version
+      - name: Download and install Android command-line tools
+        run: |
+          wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
+          unzip commandlinetools-linux-7583922_latest.zip -d $ANDROID_HOME
+          rm commandlinetools-linux-7583922_latest.zip
 
       - name: Accept Android licenses
         run: |
-          yes | $ANDROID_HOME/cmdline-tools/7.0/bin/sdkmanager --licenses
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
         env:
           ANDROID_HOME: ${{ env.ANDROID_HOME }}
 
