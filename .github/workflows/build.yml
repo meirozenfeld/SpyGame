@@ -43,5 +43,24 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
-          sdk-version: '31' # Adjust to the latest version if needed
-          components: 'platform-tools,build-tools-31.0.0'
+          sdk-version: '6609375' # Use an older version of the Android command-line tools
+          components: 'platform-tools,build-tools-30.0.3' # Adjust to the desired version
+
+      - name: Accept Android licenses
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/7.0/bin/sdkmanager --licenses
+        env:
+          ANDROID_HOME: ${{ env.ANDROID_HOME }}
+
+      - name: Build with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          command: buildozer android debug
+          buildozer_version: master
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: ${{ steps.buildozer.outputs.filename }}
