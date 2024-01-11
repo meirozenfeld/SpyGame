@@ -36,8 +36,9 @@ version = 0.1
 # version.filename = %(source.dir)s/main.py
 
 # (list) Application requirements
-# comma separated e.g. requirements = sqlite3,kivy        
-requirements = python3,buildozer==1.5.0,kivy==2.2.1,pillow,sqlite3
+# comma separated e.g. requirements = sqlite3,kivyrequirements = python3, kivy, requests, urllib3, chardet, idna, certifi
+ 
+requirements = python3,kivy==2.2.1,pillow,sqlite3
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
