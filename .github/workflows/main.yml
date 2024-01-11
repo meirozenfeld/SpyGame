@@ -8,9 +8,9 @@ on:
     - cron: '0 0 1,15 * *'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  build-android:
+    name: Build for Android
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
 
