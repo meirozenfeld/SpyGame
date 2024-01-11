@@ -12,7 +12,8 @@ jobs:
       - name: Clone Kivy Repository
         run: |
           git clone https://github.com/kivy/kivy.git
-
+      - name: Install GL dependencies
+        run: sudo apt-get install -y libgl1-mesa-dev
       - name: Modify Kivy Source Files
         run: |
           # Make the necessary changes in the Cython files (e.g., remove deprecated features)
