@@ -34,11 +34,23 @@ jobs:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
 
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          sdk-version: '31' # Adjust to the latest version if needed
+          components: 'platform-tools,build-tools-31.0.0'
+
       - name: Accept Android licenses
         run: |
-          yes | sdkmanager --licenses
+          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
         env:
-          JAVA_HOME: ${{ env.JDK_17 }} # Set the correct JDK version if needed
+          ANDROID_HOME: ${{ env.ANDROID_HOME }}
 
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
