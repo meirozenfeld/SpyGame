@@ -1,4 +1,3 @@
-[admin@fedser KivyLC]$ cat .github/workflows/build.yml 
 name: Build
 on:
   push:
