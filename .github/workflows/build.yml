@@ -38,29 +38,10 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: '17'
+          java-version: '8' # Use Java 8 for Android SDK operations
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
           sdk-version: '31' # Adjust to the latest version if needed
           components: 'platform-tools,build-tools-31.0.0'
-
-      - name: Accept Android licenses
-        run: |
-          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
-        env:
-          ANDROID_HOME: ${{ env.ANDROID_HOME }}
-
-      - name: Build with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
-        with:
-          command: buildozer android debug
-          buildozer_version: master
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: package
-          path: ${{ steps.buildozer.outputs.filename }}
