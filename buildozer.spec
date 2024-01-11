@@ -94,7 +94,7 @@ android.permissions = INTERNET,CHANGE_WIFI_MULTICAST_STATE,ACCESS_NETWORK_STATE,
 #android.minapi = 19
 
 # (int) Android SDK version to use
-#android.sdk = 23
+android.sdk = 23
 
 # (str) Android NDK version to use
 #android.ndk = 10.3.2
