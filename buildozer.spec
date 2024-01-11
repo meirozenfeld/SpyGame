@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy        
-requirements = python3,kivy==2.2.1,pillow,hostpython3,sqlite3,kivymd==1.1.1,Cython==0.29.33
+requirements = python3,buildozer==1.5.0,kivy==2.2,pillow,hostpython3,sqlite3
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -152,7 +152,7 @@ android.sdk = 23
 #android.add_activites = com.example.ExampleActivity
 
 # (str) python-for-android branch to use, defaults to stable
-#p4a.branch = stable
+p4a.branch = release-2022.12.20
 
 # (str) OUYA Console category. Should be one of GAME or APP
 # If you leave this blank, OUYA support will not be enabled
