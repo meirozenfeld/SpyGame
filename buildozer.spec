@@ -42,7 +42,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy# (list) Application requirements
-requirements = python3,kivy==2.2.1,jnius==2.0.4 kivy.deps.sdl2,kivy.deps.glew,kivy.deps.gstreamer,kivy.deps.angle,sdl2_ttf==2.0.15,sdl2_image==2.8.2,sdl2_mixer==2.6.3,pillow,openjdk-8
+requirements = python3==3.9,kivy==2.2.1,jnius==2.0.4 kivy.deps.sdl2,kivy.deps.glew,kivy.deps.gstreamer,kivy.deps.angle,sdl2_ttf==2.0.15,sdl2_image==2.8.2,sdl2_mixer==2.6.3,pillow,openjdk-8
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
