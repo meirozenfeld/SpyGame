@@ -14,13 +14,6 @@ jobs:
           git clone https://github.com/kivy/kivy.git
       - name: Install GL dependencies
         run: sudo apt-get install -y libgl1-mesa-dev
-      - name: Modify Kivy Source Files
-        run: |
-          # Make the necessary changes in the Cython files (e.g., remove deprecated features)
-          # You may need to update Cython as well
-          pip install --upgrade kivy cython
-          pip install --upgrade Cython
-          # Example: Make changes to the files in the 'kivy' directory
 
       - name: Install Modified Kivy
         run: |
