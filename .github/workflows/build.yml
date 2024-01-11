@@ -19,6 +19,7 @@ jobs:
           # Make the necessary changes in the Cython files (e.g., remove deprecated features)
           # You may need to update Cython as well
           pip install --upgrade kivy cython
+          pip install --upgrade Cython
           # Example: Make changes to the files in the 'kivy' directory
 
       - name: Install Modified Kivy
