@@ -35,8 +35,8 @@ source.include_exts = py,png,jpg,kv,atlas,txt,words.txt,mp3,end_sound.mp3,images
 
 # (str) Application versioning (method 1)
 version = 0.1
-cython.min_version = 0.29.23
-cython.max_version = 0.29.23
+cython.min_version = 0.29.33
+cython.max_version = 0.29.33
 cython.language_level = 3str
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -44,7 +44,7 @@ cython.language_level = 3str
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy# (list) Application requirements
-requirements = python3,kivy==2.2.1,Cython==0.29.33,jnius==2.0.4,kivy.deps.sdl2,kivy.deps.glew,kivy.deps.gstreamer,kivy.deps.angle,sdl2_ttf==2.0.15,sdl2_image==2.8.2,sdl2_mixer==2.6.3,pillow,openjdk-8
+requirements = python3,kivy==2.3.0,Cython==0.29.33,jnius==2.0.4,kivy.deps.sdl2,kivy.deps.glew,kivy.deps.gstreamer,kivy.deps.angle,sdl2_ttf==2.0.15,sdl2_image==2.8.2,sdl2_mixer==2.6.3,pillow,openjdk-8
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
