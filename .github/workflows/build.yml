@@ -24,13 +24,22 @@ jobs:
           pip3 install --upgrade buildozer Cython
           export PATH=$PATH:~/.local/bin/
 
-      - name: Install Android SDK components
+      - name: Install OpenJDK
+        run: sudo apt-get install -y openjdk-17-jdk
+
+      - name: Install Android SDK
         run: |
-          sudo apt-get install -y openjdk-17-jdk
-          yes | sdkmanager "build-tools;34.0.0" "platforms;android-34"
+          wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
+          unzip commandlinetools-linux-7583922_latest.zip -d cmdline-tools
+          export ANDROID_SDK_ROOT=$PWD/cmdline-tools
+          export PATH=$PATH:$PWD/cmdline-tools/tools/bin
 
       - name: Accept Android SDK licenses
         run: yes | sdkmanager --licenses
+
+      - name: Install Android SDK components
+        run: |
+          sdkmanager "build-tools;34.0.0" "platforms;android-34"
 
       - name: Build with Buildozer
         run: |
