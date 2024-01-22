@@ -20,14 +20,13 @@ jobs:
         run: mkdir -p test_app
 
       - name: Build with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
-        with:
-          workdir: test_app
-          buildozer_version: stable
+        run: |
+          cd test_app
+          buildozer init
+          buildozer android debug
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: ${{ steps.buildozer.outputs.filename }}
+          path: test_app/bin/*.apk
