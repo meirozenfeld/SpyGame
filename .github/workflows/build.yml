@@ -19,9 +19,9 @@ jobs:
       - name: Create Working Directory
         run: mkdir -p test_app
 
-      - name: Install Buildozer
+      - name: Install Buildozer and Cython
         run: |
-          pip3 install --upgrade buildozer
+          pip3 install --upgrade buildozer Cython
           export PATH=$PATH:~/.local/bin/
 
       - name: Build with Buildozer
@@ -35,8 +35,3 @@ jobs:
         with:
           name: package
           path: test_app/bin/*.apk
-
-      - name: Print Working Directory
-        run: |
-          cd test_app
-            ls -la
