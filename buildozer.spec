@@ -45,7 +45,7 @@ version = 0.1
 # (list) Application requirements
 #requirements = python3,kivy,firebase_admin,astroid,google-auth-oauthlib,google-api-core[grpc],google-api-python-client,google-cloud-firestore,google-cloud-storage,pyjwt,cachecontrol,protobuf,gcloud,google-cloud,gspread,oauth2client,httplib2,pyopenssl,google-auth-oauthlib,pyasn1,pyasn1-modules,rsa,requests,google-auth-httplib2,openssl,google-api-python-client,google-auth,credentials,oauth2,google,cachetools,urllib3,chardet,idna,requests_oauthlib,oauthlib, pyparsing
 # comma separated e.g. requirements = sqlite3,kivy# (list) Application requirements
-requirements = python3,kivy==2.3.0,openssl==1.1.1m,firebase_admin,pillow
+requirements = python3,kivy==2.3.0,openssl,firebase_admin,pillow
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
