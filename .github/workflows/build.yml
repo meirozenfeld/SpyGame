@@ -1,56 +1,41 @@
-name: Build
-
+name: CI
 on:
   push:
-    branches:
-      - main
-  pull_request:
+    branches: [ main ]
 
 jobs:
-  # Build job. Builds app for Android with Buildozer
-  build-android:
-    name: Build for Android
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-20.04
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Create Working Directory
-        run: mkdir -p test_app
-
-      - name: Install Buildozer and Cython
+      - name: Get Date
+        id: get-date
         run: |
-          pip3 install --upgrade buildozer Cython
-          export PATH=$PATH:~/.local/bin/
+          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        shell: bash
 
-      - name: Install OpenJDK
-        run: sudo apt-get install -y openjdk-17-jdk
-        
-      - name: Install Android SDK
-        run: |
-          mkdir -p $HOME/android-sdk
-          wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-          unzip commandlinetools-linux-7583922_latest.zip -d $HOME/android-sdk
-          export ANDROID_SDK_ROOT=$HOME/android-sdk
-          export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/tools/bin
-      
-      - name: Accept Android SDK licenses
-        run: yes | $ANDROID_SDK_ROOT/cmdline-tools/tools/bin/sdkmanager --licenses
-      
-      - name: Install Android SDK components
-        run: |
-          $ANDROID_SDK_ROOT/cmdline-tools/tools/bin/sdkmanager "build-tools;34.0.0" "platforms;android-34"
+      - name: Cache Buildozer global directory
+        uses: actions/cache@v2
+        with:
+          path: .buildozer_global
+          key: buildozer-global-${{ hashFiles('buildozer.spec') }} # Replace with your path
 
+      - uses: actions/cache@v2
+        with:
+          path: .buildozer
+          key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
 
       - name: Build with Buildozer
-        run: |
-          cd test_app
-          buildozer init
-          buildozer android debug
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          command: buildozer android debug
+          buildozer_version: stable
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: test_app/bin/*.apk
+          path: ${{ steps.buildozer.outputs.filename }}
