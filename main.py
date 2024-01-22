@@ -875,7 +875,7 @@ class WindowManager(ScreenManager):
 
 
 # Building .kv file
-kv = Builder.load_file("SpyGameFS.kv")
+kv = Builder.load_file("main.kv")
 
 
 class SpyApp(App):
