@@ -43,8 +43,9 @@ cython.language_level = 3str
 # version.filename = %(source.dir)s/main.py
 
 # (list) Application requirements
+#requirements = python3,kivy,firebase_admin,astroid,google-auth-oauthlib,google-api-core[grpc],google-api-python-client,google-cloud-firestore,google-cloud-storage,pyjwt,cachecontrol,protobuf,gcloud,google-cloud,gspread,oauth2client,httplib2,pyopenssl,google-auth-oauthlib,pyasn1,pyasn1-modules,rsa,requests,google-auth-httplib2,openssl,google-api-python-client,google-auth,credentials,oauth2,google,cachetools,urllib3,chardet,idna,requests_oauthlib,oauthlib, pyparsing
 # comma separated e.g. requirements = sqlite3,kivy# (list) Application requirements
-requirements = python3,kivy==2.3.0,Cython==0.29.33,jnius==2.0.4,kivy.deps.sdl2,kivy.deps.glew,kivy.deps.gstreamer,kivy.deps.angle,sdl2_ttf==2.0.15,sdl2_image==2.8.2,sdl2_mixer==2.6.3,pillow,openjdk-8
+requirements = python3,kivy==2.3.0,firebase_admin,Cython==0.29.33,jnius==2.0.4,kivy.deps.sdl2,kivy.deps.glew,kivy.deps.gstreamer,kivy.deps.angle,sdl2_ttf==2.0.15,sdl2_image==2.8.2,sdl2_mixer==2.6.3,pillow,openjdk-8
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
