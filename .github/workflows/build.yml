@@ -26,7 +26,7 @@ jobs:
 
       - name: Install OpenJDK
         run: sudo apt-get install -y openjdk-17-jdk
-
+        
       - name: Install Android SDK
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
