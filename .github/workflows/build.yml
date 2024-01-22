@@ -29,18 +29,19 @@ jobs:
         
       - name: Install Android SDK
         run: |
+          mkdir -p $HOME/android-sdk
           wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
-          unzip commandlinetools-linux-7583922_latest.zip -d cmdline-tools
-          export ANDROID_SDK_ROOT=$PWD/cmdline-tools
-          export PATH=$PATH:$ANDROID_SDK_ROOT/tools/bin
+          unzip commandlinetools-linux-7583922_latest.zip -d $HOME/android-sdk
+          export ANDROID_SDK_ROOT=$HOME/android-sdk
+          export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/tools/bin
       
       - name: Accept Android SDK licenses
-        run: yes | $ANDROID_SDK_ROOT/tools/bin/sdkmanager --licenses
+        run: yes | $ANDROID_SDK_ROOT/cmdline-tools/tools/bin/sdkmanager --licenses
       
       - name: Install Android SDK components
         run: |
-          $ANDROID_SDK_ROOT/tools/bin/sdkmanager "build-tools;34.0.0" "platforms;android-34"
-      
+          $ANDROID_SDK_ROOT/cmdline-tools/tools/bin/sdkmanager "build-tools;34.0.0" "platforms;android-34"
+
 
       - name: Build with Buildozer
         run: |
