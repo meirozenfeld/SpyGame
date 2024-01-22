@@ -1,0 +1,338 @@
+WindowManager:
+    MainWindow:
+    WordsOrLists:
+    WordsWindow:
+    ListsWindow:
+    NamesWindow:
+    GameWindow:
+    TimeWindow:
+    EndGameWindow:
+
+<MainWindow>
+    name: "main"
+    orientation: 'vertical'
+
+    BoxLayout:
+        orientation: 'vertical'
+        height: '40dp'
+        spacing: 10
+        Image:
+            source: "images/spy_icon.png"
+            size_hint_y: None
+            height: dp(150)
+
+        TextInput:
+            id: num_players_input
+            hint_text: 'Number of Players'
+            input_filter: 'int'
+            multiline: False
+            size_hint_x: 0.7
+            size_hint_y: 0.2
+            pos_hint: {'center_x': 0.5}
+            on_text: root.check_conditions()
+
+        TextInput:
+            id: num_spies_input
+            hint_text: 'Number of Spies'
+            input_filter: 'int'
+            size_hint_x: 0.7
+            size_hint_y: 0.2
+            pos_hint: {'center_x': 0.5}
+            multiline: False
+            on_text: root.check_conditions()
+
+        TextInput:
+            id: game_time_input
+            hint_text: 'Game Time (minutes)'
+            input_filter: 'int'
+            size_hint_x: 0.7
+            size_hint_y: 0.2
+            pos_hint: {'center_x': 0.5}
+            multiline: False
+            on_text: root.check_conditions()
+
+        ScrollView:
+            size_hint: (0.7, None)
+            height: '120dp'  # Set the desired height for the ScrollView
+            pos_hint: {'center_x': 0.5}
+
+            GridLayout:
+                cols: 1
+                spacing: 0
+                size_hint_y: None
+                pos_hint: {'center_x': 0.5}
+                height: self.minimum_height  # Automatically adjust the height based on content
+
+                Spinner:
+                    id: table_spinner
+                    font_name: 'Arial'
+                    text: 'Select words list for the game'
+                    values: []  # Will be populated dynamically
+                    size_hint_y: None
+                    height: dp(50)  # Set the height for each Spinner item
+                    pos_hint: {'center_x': 0.5}
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+
+            Button:
+                text: 'Manage words and lists'
+                size_hint_x: 0.3
+                size_hint_y: 0.5
+                background_color: 0, 0, 0.5, 1  # Dark blue color
+                on_release: app.root.current = "words_or_lists"
+
+            Button:
+                text: 'Next'
+                size_hint_x: 0.3
+                size_hint_y: 0.5
+                disabled: True if num_players_input.text == '' or num_spies_input.text == '' or game_time_input.text == '' or int(num_spies_input.text) < 1  or int(num_spies_input.text) > int(num_players_input.text) or int(num_players_input.text)<3 or int(game_time_input.text)<=0 else False
+                on_press: root.check_list()
+
+
+        Label:
+            text: "©Meirosenfeld"
+            font_size: 45  # Set the desired font size
+            size_hint_x: 0.7
+            size_hint_y: 0.6
+            pos_hint: {'center_x': 0.5}
+
+<WordsOrLists>
+    name: "words_or_lists"
+    BoxLayout:
+        orientation: 'vertical'
+        Image:
+            source: "images/spy_icon.png"
+            size_hint_y: None
+            height: dp(150)
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 40
+            padding: [20, 0]  # Adjust the values to add padding on the left and right sides
+
+            Button:
+                text: 'Manage words'
+                size_hint_x: 0.05
+                size_hint_y: 0.2
+                background_color: 0, 0, 0.5, 1  # Dark blue color
+                pos_hint: {'center_y': 0.5}
+                padding_x: 10  # Adjust the value to add horizontal space
+                on_release: app.root.current = "words"
+
+            Button:
+                text: 'Manage lists'
+                size_hint_x: 0.05
+                size_hint_y: 0.2
+                background_color: 0, 0, 0.5, 1  # Dark blue color
+                pos_hint: {'center_y': 0.5}
+                padding_x: 10  # Adjust the value to add horizontal space
+                on_release: app.root.current = "lists"
+
+        Button:
+            text: 'Back'
+            size_hint_x: 0.6
+            size_hint_y: 0.1
+            pos_hint: {'center_x': 0.5}
+            on_release: app.root.current = "main"
+
+
+<ListsWindow>
+    name: "lists"
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 1  # Adjust the spacing value to make it smaller
+        padding: [20, 0]  # Adjust the values to add padding on the left and right sides
+
+        ScrollView:
+            size_hint: (1, None)
+            height: '200dp'  # Set the desired height for the ScrollView
+            Label:
+                id: list_label
+                text: ""
+                font_name: 'Arial'
+                font_size: 50  # Set the desired font size
+                text_size: self.width, None
+                height: self.texture_size[1]
+                size_hint_y: None
+                halign: 'center'
+                valign: 'middle'
+
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                id: header_label
+                text: "Enter a list (In English) and then press on an option:"
+
+            TextInput:
+                id: list_input
+                font_name: 'Arial'
+                font_size: 30
+                size_hint_x: 0.7
+                size_hint_y: 0.3
+                pos_hint: {'center_x': 0.5}
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10  # Add spacing between buttons
+            Button:
+                text: 'Add list'
+                size_hint_x: 0.6
+                size_hint_y: 0.7
+                background_color: 0, 0.5, 0, 1  # Dark green color
+                on_release: root.add_list_submit()
+
+            Button:
+                text: 'Delete list'
+                size_hint_x: 0.6
+                size_hint_y: 0.7
+                background_color: 0.8, 0, 0, 1  # Dark red color
+                on_release: root.delete_list_confirm()
+
+            Button:
+                text: 'Delete All lists'
+                size_hint_x: 0.6
+                size_hint_y: 0.7
+                background_color: 0.8, 0, 0, 1  # Dark red color
+                on_release: root.delete_all_list_confirm()
+        Button:
+            text: 'Show all lists'
+            size_hint_x: 0.6
+            size_hint_y: 0.7
+            pos_hint: {'center_x': 0.5}
+            background_color: 0, 0, 0.5, 1  # Dark blue color
+            on_release: root.show_lists()
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10  # Add spacing between widgets
+            padding: [20, 0]  # Adjust the values to add padding on the left and right sides
+            Button:
+                text: 'Back to manage \nwords and lists'
+                size_hint_x: 0.6
+                size_hint_y: 0.8
+                on_release: app.root.current = "words_or_lists"
+
+            Button:
+                text: 'Back to main'
+                size_hint_x: 0.6
+                size_hint_y: 0.8
+                on_release: app.root.current = "main"
+
+
+<WordsWindow>
+    name: "words"
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [20, 0]  # Adjust the values to add padding on the left and right sides
+
+        ScrollView:
+            size_hint: (1, None)
+            height: '200dp'  # Set the desired height for the ScrollView
+            Label:
+                id: word_label
+                text: ""
+                font_name: 'Arial'
+                font_size: 50  # Set the desired font size
+                text_size: self.width, None
+                height: self.texture_size[1]
+                size_hint_y: None
+                halign: 'center'
+                valign: 'middle'
+
+        Spinner:
+            id: table_spinner_for_words
+            text: 'First - select list \nfor manage words'
+            values: []  # Will be populated dynamically
+            size_hint_x: 0.7
+            size_hint_y: 0.6
+            pos_hint: {'center_x': 0.5}
+
+        Label:
+            id: header_label
+            text: "Enter a word(In Hebrew) and then press on an option:"
+
+        TextInput:
+            id: word_input
+            font_name: 'Arial'
+            base_direction: 'rtl'
+            font_size: 30
+            direction: 'rtl'  # This sets the overall text direction
+            size_hint_x: 0.7
+            size_hint_y: 0.4
+            pos_hint: {'center_x': 0.5}
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10  # Add spacing between buttons
+            Button:
+                text: 'Add word'
+                size_hint_x: 0.6
+                size_hint_y: 0.8
+                background_color: 0, 0.5, 0, 1  # Dark green color
+                on_release: root.add_word_submit()
+
+            Button:
+                text: 'Delete word'
+                size_hint_x: 0.6
+                size_hint_y: 0.8
+                background_color: 0.8, 0, 0, 1  # Dark red color
+                on_release: root.delete_word()
+
+            Button:
+                text: 'Delete all Words \nfrom the chosen list'
+                size_hint_x: 0.6
+                size_hint_y: 0.8
+                background_color: 0.8, 0, 0, 1  # Dark red color
+                on_release: root.delete_all_words_popup()
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10  # Add spacing between buttons
+            Button:
+                text: 'Show words \nfrom selected list'
+                size_hint_x: 0.6
+                size_hint_y: 0.8
+                pos_hint: {'center_x': 0.5}
+                background_color: 0, 0, 0.5, 1  # Dark blue color
+                on_release: root.show_words()
+            Button:
+                text: 'Show words \nfrom all lists'
+                size_hint_x: 0.6
+                size_hint_y: 0.8
+                pos_hint: {'center_x': 0.5}
+                background_color: 0, 0, 0.5, 1  # Dark blue color
+                on_release: root.show_all_list_words()
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10  # Add spacing between widgets
+            padding: [20, 0]  # Adjust the values to add padding on the left and right sides
+            Button:
+                text: 'Back to manage words and lists'
+                size_hint_x: 0.6
+                size_hint_y: 0.8
+                on_release: app.root.current = "words_or_lists"
+
+            Button:
+                text: 'Back to main'
+                size_hint_x: 0.6
+                size_hint_y: 0.8
+                on_release: app.root.current = "main"
+
+<NamesWindow>
+    name: "names"
+
+
+
+<GameWindow>
+    name: "game"
+
+
+
+<TimeWindow>
+    name: "time"
+
+
+<EndGameWindow>
+    name: "end"
+
